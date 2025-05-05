@@ -26,7 +26,7 @@ def preprocess_input(pil_img):
     arr = np.array(img)
     return arr.reshape(1, 150, 150, 3)        # add batch dimension
 
-@app.route('/inference', methods=['POST']) # used chatGPT to fix resizing issues and print the probabilities
+@app.route('/inference', methods=['POST']) # used chatGPT to fix resizing issues and fix errors
 def classify_pneumonia():
     file = request.files.get('image')
     if not file:
@@ -39,7 +39,7 @@ def classify_pneumonia():
         preds = model.predict(data)
         class_idx = np.argmax(preds, axis=1)[0]
         label = "pneumonia" if class_idx == 1 else "normal"
-        return jsonify({"prediction": label, "probabilities": preds.tolist()})
+        return jsonify({"prediction": label})
     except Exception as e:
         return jsonify({
             "error": "Could not process the `image` field",
