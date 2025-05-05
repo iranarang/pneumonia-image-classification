@@ -67,7 +67,7 @@ git clone git@github.com:iranarang/pneumonia-image-classification.git
 ```
 Now, in order to build the Docker images and start the container, 
 ```
-docker-compose up -d --build
+docker compose -f docker/docker-compose.yml up --build -d
 ```
 
 Now, the server is up and running! We can test our requests using the following curl commands. The first curl command is our GET request.
