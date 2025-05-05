@@ -79,7 +79,7 @@ curl http://localhost:5000/summary
 This will return,
 ```
 {
-  "accuracy": ,
+  "accuracy": 1.0,
   "description": "A CNN that classifies chest X-ray images as normal vs. pneumonia",
   "name": "pneumonia-detection-cnn",
   "version": "v1"
