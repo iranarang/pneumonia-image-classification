@@ -120,7 +120,7 @@ This outputs,
 ```
 Once we are done running the server, we can close it by typing the following in terminal
 ```
-docker-compose down
+docker compose -f docker/docker-compose.yml down
 ```
 
 ## References
