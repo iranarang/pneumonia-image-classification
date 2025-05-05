@@ -6,7 +6,6 @@ This repository packages a highly accurate Convolutional Neural Network (CNN) th
 
 1.**`pneumonia_classification.ipynb`**
    This notebook loads the dataset, performs EDA, builds a baseline CNN, runs Keras Tuner (Random Search, HYperband, Bayesian), and retrains the best configuration and saves the final model. 
-
 2. **`api.py`**
   
    This file defines a Flask application with three routes:
