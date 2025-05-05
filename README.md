@@ -124,4 +124,4 @@ docker-compose down
 ```
 
 ## References
-1. Kermany, D.S., "Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning."
+Mooney, Paul. “Chest X-Ray Images (Pneumonia).” Kaggle, 24 Mar. 2018, www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia?resource=download. 
