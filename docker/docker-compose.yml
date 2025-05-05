@@ -1,14 +1,15 @@
-version: '3.8'  
+# In docker/docker-compose.yml
+version: '3.8'
 
 services:
-  pneumonia_classifier_api:  
-    image: nicoleolv/pneumonia_classifier_api  
+  pneumonia_classifier_api:
+    image: nicoleolv/pneumonia_classifier_api
     build:
-      context: .  
-      dockerfile: Dockerfile  
+      context: ..           
+      dockerfile: docker/Dockerfile  
     ports:
-      - "5000:5000" 
+      - "5000:5000"
     volumes:
-      - ./models:/models  # mount models directory 
-    restart: unless-stopped  
-    entrypoint: ["python", "api.py"]
+      - ./models:/models  
+    restart: unless-stopped
+    entrypoint: ["python", "api.py"] 

@@ -7,7 +7,7 @@ import io
 app = Flask(__name__)
 
 # Load the trained model 
-model = tf.keras.models.load_model('./models/best_pneumonia_model.keras')
+model = tf.keras.models.load_model('/models/best_pneumonia_model_tf215.keras')
 
 @app.route('/summary', methods=['GET'])
 def model_info():
@@ -15,7 +15,7 @@ def model_info():
         "version": "v1",
         "name": "pneumonia-detection-cnn",
         "description": "A CNN that classifies chest X-ray images as normal vs. pneumonia",
-        "accuracy": 0.9375 
+        "accuracy": 1.0 
     })
 
 def preprocess_input(pil_img):
@@ -23,29 +23,23 @@ def preprocess_input(pil_img):
     Resize, normalize, and reshape PIL image to the model's expected input shape.
     """
     img = pil_img.convert('RGB').resize((150, 150))
-    arr = np.array(img) / 255.0               # normalize to [0,1]
+    arr = np.array(img)
     return arr.reshape(1, 150, 150, 3)        # add batch dimension
 
-@app.route('/inference', methods=['POST'])
+@app.route('/inference', methods=['POST']) # used chatGPT to fix resizing issues and print the probabilities
 def classify_pneumonia():
-    # Grab the uploaded file
     file = request.files.get('image')
     if not file:
         return jsonify({"error": "The `image` field is required"}), 400
 
     try:
-        # Read and preprocess
         img_bytes = file.read()
         pil_img = Image.open(io.BytesIO(img_bytes))
         data = preprocess_input(pil_img)
-
-        # Inference
         preds = model.predict(data)
         class_idx = np.argmax(preds, axis=1)[0]
         label = "pneumonia" if class_idx == 1 else "normal"
-
-        return jsonify({"prediction": label})
-
+        return jsonify({"prediction": label, "probabilities": preds.tolist()})
     except Exception as e:
         return jsonify({
             "error": "Could not process the `image` field",
@@ -55,12 +49,12 @@ def classify_pneumonia():
 @app.route('/best-hyperparameters', methods=['GET'])
 def best_hyperparameters():
     return jsonify({
-        "Conv blocks": 1,
-        "Filters (first block)": 128,
-        "Dense units": 64,
+        "Conv blocks": 2,
+        "Filters (first block)": 64,
+        "Dense units": 192,
         "Dropout": 0.2,
-        "Optimizer": "adam",
-        "Learning rate": 0.0001
+        "Optimizer": "rmsprop",
+        "Learning rate": 0.001
     })
 
 

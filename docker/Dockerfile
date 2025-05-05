@@ -1,13 +1,11 @@
-FROM python:3.11
+FROM python:3.9
 
-# Install dependencies
-RUN pip install tensorflow==2.15
-RUN pip install Flask==3.0
-RUN pip install Pillow==10.0  # For image processing
+WORKDIR /app
 
-# Copy model and api.py
+RUN pip install --no-cache-dir "numpy<2.0" tensorflow==2.17 Flask==3.0 Pillow==10.0
+
 COPY models /models
-COPY api.py /api.py
+COPY docker/api.py /app/api.py  
 
-# Set default command
 CMD ["python", "api.py"]
+
